@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-count
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-count
+  template:
+    metadata:
+      labels:
+        app: pod-count
+    spec:
+      containers:
+      - name: pod-count
+        image: kubernetes-pod-count:0.0.1
+        imagePullPolicy: Never # Todo: Only for local testing is "Never", need be changed to "Always"
+        env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: KUBERNETES_APP_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['app']
