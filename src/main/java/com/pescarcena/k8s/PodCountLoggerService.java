@@ -18,7 +18,11 @@ public class PodCountLoggerService {
 
     @Scheduled(fixedRate = 5000)
     public void logPodCount() {
-        List<Pod> pods = client.pods().inNamespace("default").withLabel("app", "pod-count").list().getItems();
+        // Get namespace from environment variable
+        String namespace = System.getenv("KUBERNETES_NAMESPACE");
+        String app_name = System.getenv("KUBERNETES_APP_NAME");
+        
+        List<Pod> pods = client.pods().inNamespace(namespace).withLabel("app", app_name).list().getItems();
         int podCount = pods.size();
         System.out.println("Current pod count: " + podCount);
     }

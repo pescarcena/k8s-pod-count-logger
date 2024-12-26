@@ -12,6 +12,7 @@ spec:
       labels:
         app: pod-count
     spec:
+      serviceAccountName: default
       containers:
       - name: pod-count
         image: kubernetes-pod-count:0.0.1
